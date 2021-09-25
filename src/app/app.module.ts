@@ -10,7 +10,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchModule } from './search/search.module';
-import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +21,6 @@ import { AppRoutingModule } from './app-routing.module';
     CoreModule,
     LandingPageModule,
     SearchModule,
-    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

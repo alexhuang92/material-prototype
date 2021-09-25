@@ -1,0 +1,52 @@
+{
+  "forms": [
+    {
+      "formId": 1,
+      "formName": "US3200",
+      "classification": "LE",
+      "stateCode": "AZ"
+    },
+    {
+      "formId": 2,
+      "formName": "US3200-2",
+      "classification": "LE",
+      "stateCode": "AZ"
+    },
+    {
+      "formId": 3,
+      "formName": "US3200-3",
+      "classification": "LE",
+      "stateCode": "AK"
+    },
+    {
+      "formId": 4,
+      "formName": "US3200-4",
+      "classification": "LE",
+      "stateCode": "Multi-state"
+    },
+    {
+      "formId": 5,
+      "formName": "US3200-5",
+      "classification": "LE",
+      "stateCode": "CA"
+    },
+    {
+      "formId": 7,
+      "formName": "NOTE",
+      "classification": "LE",
+      "stateCode": "AZ"
+    },
+    {
+      "formId": 8,
+      "formName": "Data",
+      "classification": "Always",
+      "stateCode": "HI"
+    },
+    {
+      "formId": 9,
+      "formName": "US3200",
+      "classification": "LE",
+      "stateCode": "US"
+    }
+  ]
+}

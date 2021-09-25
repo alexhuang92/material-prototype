@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ApplicationEvent } from '../models/application-event.enum';
-import { SearchedForm as SearchedForm } from '../models/form-searched.model';
+import { SearchedForm as SearchedForm } from '../models/searched-form.model';
 
 @Injectable({
   providedIn: 'root',

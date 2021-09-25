@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { SearchedForm } from 'src/app/core/models/form-searched.model';
+import { SearchedForm } from 'src/app/core/models/searched-form.model';
 import { ApplicationEventService } from 'src/app/core/services/application-event.service';
 
 @Component({
