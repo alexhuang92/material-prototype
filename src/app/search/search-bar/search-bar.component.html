@@ -1,0 +1,5 @@
+<mat-form-field>
+  <mat-icon matPrefix (click)='onClick(searchBar.value)'>search</mat-icon>
+  <input #searchBar matInput type="text" tabindex="1" (keyup.enter)="onEnter(searchBar.value)"
+    placeholder="Search form by title or form id (e.g. 'US3200' OR 'LA123')" formControlName="email">
+</mat-form-field>

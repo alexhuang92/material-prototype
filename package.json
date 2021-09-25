@@ -6,6 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "build:stats": "ng build --stats-json",
+    "analyze:stats": "webpack-bundle-analyzer dist/app-material/stats.json",
+    "analyze": "npm run build:stats && npm run analyze:stats",
     "test": "ng test",
     "lint": "ng lint"
   },
@@ -46,6 +49,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.3.5"
+    "typescript": "~4.3.5",
+    "webpack-bundle-analyzer": "^4.4.2"
   }
 }
