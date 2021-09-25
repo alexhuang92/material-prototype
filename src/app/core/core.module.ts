@@ -5,11 +5,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 
 import { HeaderComponent } from './header/header.component';
-import { CoreRoutingModule } from './core-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [HeaderComponent],
-  imports: [CommonModule, MatToolbarModule, MatIconModule, CoreRoutingModule],
-  exports: [HeaderComponent, CoreRoutingModule],
+  imports: [CommonModule, MatToolbarModule, MatIconModule, RouterModule],
+  exports: [HeaderComponent],
 })
 export class CoreModule {}

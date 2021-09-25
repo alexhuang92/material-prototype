@@ -5,14 +5,14 @@ const routes: Routes = [
   {
     path: 'landing-page',
     loadChildren: () =>
-      import('../landing-page/landing-page.module').then(
+      import('./landing-page/landing-page.module').then(
         (m) => m.LandingPageModule
       ),
   },
   {
     path: 'forms',
     loadChildren: () =>
-      import('../form-list/form-list.module').then((m) => m.FormListModule),
+      import('./form-list/form-list.module').then((m) => m.FormListModule),
   },
   {
     path: '',
@@ -31,4 +31,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class CoreRoutingModule {}
+export class AppRoutingModule {}
