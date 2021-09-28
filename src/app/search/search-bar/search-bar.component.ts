@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SearchedForm } from 'src/app/core/models/searched-form.model';
 import { ApplicationEventService } from 'src/app/core/services/application-event.service';
@@ -7,14 +14,40 @@ import { ApplicationEventService } from 'src/app/core/services/application-event
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss'],
+  animations: [
+    trigger('navigation', [
+      state(
+        'landing',
+        style({
+          transform: 'scale(1)',
+        })
+      ),
+      state(
+        'forms',
+        style({
+          'margin-top': '-150px',
+        })
+      ),
+      transition('void => forms', animate('5000ms')),
+      transition(
+        'landing => forms',
+        animate('400ms ease', style({ 'margin-top': '-150px' }))
+      ),
+    ]),
+  ],
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
   constructor(private applicationEventService: ApplicationEventService) {}
 
+  @Input()
+  state: string | undefined;
+
   private eventSubscription!: Subscription;
   private formSearchedSubscription!: Subscription;
   ngOnInit(): void {
-    console.log('[search-bar-component]: search bar component initialized.');
+    console.log(
+      `[search-bar-component]: search bar component initialized. ${this.state}`
+    );
 
     this.eventSubscription =
       this.applicationEventService.eventChanged$.subscribe((evt) => {
