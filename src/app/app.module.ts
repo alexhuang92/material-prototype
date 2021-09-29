@@ -12,12 +12,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { SearchModule } from './search/search.module';
 import { AppRoutingModule } from './app-routing.module';
 
+import { Overlay, OverlayModule } from '@angular/cdk/overlay';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    OverlayModule,
     HttpClientModule,
     CoreModule,
     AppRoutingModule,

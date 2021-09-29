@@ -1,9 +1,19 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Overlay } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ApplicationEventService } from '../core/services/application-event.service';
+import { FormViewComponent } from '../form-view/form-view.component';
+import { FormViewOverlayService } from '../form-view/services/form-view-overlay.service';
 import { FormsDataSource } from './forms-data-source';
 import { FormSearchResult } from './models/form-search-result.model';
 import { FormSearchService } from './services/form-search.service';
@@ -25,7 +35,8 @@ export class FormListComponent implements AfterViewInit, OnInit {
 
   constructor(
     private applicationEventService: ApplicationEventService,
-    private formSearchService: FormSearchService
+    private formSearchService: FormSearchService,
+    private formViewOverlayService: FormViewOverlayService
   ) {}
 
   ngAfterViewInit(): void {
@@ -53,6 +64,10 @@ export class FormListComponent implements AfterViewInit, OnInit {
 
   onRowClicked(row: FormSearchResult): void {
     console.log(row);
+  }
+
+  onFormOverlayClicked(): void {
+    this.formViewOverlayService.showFormView();
   }
 
   private searchFormData() {

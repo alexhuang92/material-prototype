@@ -15,6 +15,11 @@ const routes: Routes = [
       import('./form-list/form-list.module').then((m) => m.FormListModule),
   },
   {
+    path: 'form/:formId',
+    loadChildren: () =>
+      import('./form-view/form-view.module').then((m) => m.FormViewModule),
+  },
+  {
     path: '',
     redirectTo: 'landing-page',
     pathMatch: 'full',
@@ -27,7 +32,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes, {
+      // preloadingStrategy: PreloadAllModules
+    }),
   ],
   exports: [RouterModule],
 })

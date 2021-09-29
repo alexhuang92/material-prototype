@@ -26,6 +26,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onAccountClick(): void {
-    this.router.navigateByUrl('/form');
+    this.router.navigateByUrl('/form/2');
   }
 }
