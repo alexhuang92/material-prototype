@@ -3,6 +3,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import {
   AfterViewInit,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
@@ -23,7 +24,7 @@ import { FormSearchService } from './services/form-search.service';
   templateUrl: './form-list.component.html',
   styleUrls: ['./form-list.component.scss'],
 })
-export class FormListComponent implements AfterViewInit, OnInit {
+export class FormListComponent implements AfterViewInit, OnInit, OnDestroy {
   dataSource!: FormsDataSource;
   displayedColumns = ['formId', 'formName', 'classification', 'stateCode'];
   totalFormCount: number = 0;
@@ -33,33 +34,44 @@ export class FormListComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  private sortSubscription!: Subscription;
+  private paginationSubscription!: Subscription;
+  private searchBarSubscription!: Subscription;
+
   constructor(
     private applicationEventService: ApplicationEventService,
     private formSearchService: FormSearchService,
     private formViewOverlayService: FormViewOverlayService
   ) {}
 
+  ngOnDestroy(): void {
+    this.sortSubscription?.unsubscribe();
+    this.paginationSubscription?.unsubscribe();
+    this.searchBarSubscription?.unsubscribe();
+  }
+
+  ngOnInit(): void {
+    this.dataSource = new FormsDataSource(this.formSearchService);
+  }
+
   ngAfterViewInit(): void {
-    let sortSubscription: Subscription = this.sort.sortChange.subscribe(
-      () => (this.paginator.pageIndex = 0)
+    this.sortSubscription = this.sort.sortChange.subscribe(() =>
+      this.resetPageIndex()
     );
 
-    let subscription: Subscription = merge(
+    this.paginationSubscription = merge(
       this.sort.sortChange,
       this.paginator.page
     )
       .pipe(tap(() => this.searchFormData()))
       .subscribe();
 
-    let searchFormSubscription: Subscription =
+    this.searchBarSubscription =
       this.applicationEventService.formSearched$.subscribe((searchedForm) => {
+        this.resetPagination();
         this.searchText = searchedForm.searchQueryText;
         this.searchFormData();
       });
-  }
-
-  ngOnInit(): void {
-    this.dataSource = new FormsDataSource(this.formSearchService);
   }
 
   onRowClicked(row: FormSearchResult): void {
@@ -68,6 +80,19 @@ export class FormListComponent implements AfterViewInit, OnInit {
 
   onFormOverlayClicked(): void {
     this.formViewOverlayService.showFormView();
+  }
+
+  onFormSearchClicked(): void {
+    this.dataSource.loadDataViaPost({ searchQueryText: 'test' });
+  }
+
+  private resetPagination() {
+    this.sort.direction = 'desc';
+    this.resetPageIndex();
+  }
+
+  private resetPageIndex() {
+    this.paginator.pageIndex = 0;
   }
 
   private searchFormData() {

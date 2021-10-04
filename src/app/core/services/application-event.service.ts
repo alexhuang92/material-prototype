@@ -24,6 +24,10 @@ export class ApplicationEventService {
 
   constructor() {}
 
+  /**
+   * Searches for a form with the given model.
+   * @param form
+   */
   formSearched(form: SearchedForm) {
     this.eventSubject.next(ApplicationEvent.FormSearched);
     this.formSearchSubject.next(form);

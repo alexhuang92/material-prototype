@@ -26,3 +26,6 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 [Material Icon list](https://fonts.google.com/icons?selected=Material+Icons) page.
 [Material Icons Guide](http://google.github.io/material-design-icons/#icon-font-for-the-web)
 [angular/flex-layout](https://github.com/angular/flex-layout)
+
+## Documentation
+[https://compodoc.app/guides/getting-started.html](https://compodoc.app/guides/getting-started.html)
