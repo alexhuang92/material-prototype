@@ -48,7 +48,5 @@ export class FormViewOverlayService {
       type,
       data,
     });
-
-    this.overlayEventSubject.complete();
   }
 }

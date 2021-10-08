@@ -1,46 +1,32 @@
-<div class="spinner-container" *ngIf="dataSource.loading$ | async">
-  <mat-spinner></mat-spinner>
-</div>
+<mat-tab-group (selectedTabChange)="onTabChanged($event)">
+  <mat-tab label="All Forms">
+    <app-all-forms></app-all-forms>
+  </mat-tab>
+  <mat-tab label="My Library">
+    <app-my-library></app-my-library>
+  </mat-tab>
+  <!-- <mat-tab disabled fxShow fxHide.lt-md></mat-tab> -->
 
-<!-- matSortDirection="asc" -->
-<mat-table class="mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="formId">
+  <mat-tab [disabled]="true">
+    <ng-template mat-tab-label>
+      <div class="pagination-controls">
+        <mat-paginator (page)="onPageChange($event)" [hidePageSize]="true">
+        </mat-paginator>
+      </div>
+    </ng-template>
+    </mat-tab>
 
-  <ng-container matColumnDef="formId">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Form Id</mat-header-cell>
-    <mat-cell *matCellDef="let form">{{form.formId}}</mat-cell>
-  </ng-container>
+    </mat-tab-group>
 
-  <ng-container matColumnDef="formName">
-    <mat-header-cell *matHeaderCellDef>Form Name</mat-header-cell>
-    <mat-cell class="description-cell" *matCellDef="let form">{{form.formName}}</mat-cell>
 
-  </ng-container>
+  <br>
+  <br>
+  <br>
 
-  <ng-container matColumnDef="classification">
-    <mat-header-cell *matHeaderCellDef>Classification</mat-header-cell>
-    <mat-cell class="duration-cell" *matCellDef="let form">{{form.classification}}</mat-cell>
-  </ng-container>
+  <br>
+  <br>
+  <br>
 
-  <ng-container matColumnDef="stateCode">
-    <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
-    <mat-cell class="duration-cell" *matCellDef="let form">{{form.stateCode}}</mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
-  <mat-row (click)="onRowClicked(row)" *matRowDef="let row; columns: displayedColumns"></mat-row>
-
-</mat-table>
-
-<mat-paginator [length]="totalFormCount" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
-
-<div>
-  <button mat-raised-button (click)="onFormOverlayClicked()"> OPEN FORM OVERLAY</button>
-</div>
-
-<div>
-  <button mat-raised-button (click)="onFormSearchClicked()"> SEARCH</button>
-</div>
 
 <div style="margin-top:50px;">
   <button mat-raised-button>Basic</button>

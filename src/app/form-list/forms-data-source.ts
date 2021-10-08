@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError, finalize, tap } from 'rxjs/operators';
 import { SearchedForm } from '../core/models/searched-form.model';
 import { FormSearchRequest } from './models/form-search-request.model';
 import { FormSearchResponse } from './models/form-search-response.model';
@@ -13,64 +13,84 @@ export class FormsDataSource implements DataSource<FormSearchResult> {
 
   public loading$ = this.loadingSubject.asObservable();
 
+  private searchQuery: string = '';
+  private sort: string = 'formTitle';
+  private order: string = 'asc';
+  private _pageSize: number = 10;
+  private _pageIndex: number = 1;
+  private _totalCount: number = 0;
+
+  public get totalCount(): number {
+    return this._totalCount;
+  }
+  public get pageIndex(): number {
+    return this._pageIndex;
+  }
+
   constructor(private formSearchService: FormSearchService) {}
 
-  connect(
-    collectionViewer: CollectionViewer
-  ): Observable<readonly FormSearchResult[]> {
+  connect(): Observable<readonly FormSearchResult[]> {
     return this.formsSubject.asObservable();
   }
-  disconnect(collectionViewer: CollectionViewer): void {
+  disconnect(): void {
     this.formsSubject.complete();
     this.loadingSubject.complete();
   }
 
+  pageData(pageIndex: number, pageSize: number) {
+    return this.loadData(
+      this.searchQuery,
+      this.sort,
+      this.order,
+      pageIndex,
+      pageSize
+    );
+  }
+
+  sortData(sort: string, sortDirection: string = 'asc') {
+    return this.loadData(
+      this.searchQuery,
+      sort,
+      sortDirection,
+      this._pageIndex,
+      this._pageSize
+    );
+  }
+
   loadData(
     filter: string,
+    sortColumn: string = 'formTitle',
     sortDirection: string = 'asc',
     pageIndex: number = 0,
     pageSize: number = 10
   ) {
     console.log(
-      '[forms-data-source]: load data: ' + ' searchFilter: ' + filter,
-      sortDirection + ' pageIndex: ' + pageIndex + ' pageSize: ' + pageSize
+      '[forms-data-source]: load data: ' +
+        ' searchFilter: ' +
+        filter +
+        ', sortColumn: ' +
+        sortColumn +
+        ', sortDirection: ' +
+        sortDirection +
+        ', pageIndex: ' +
+        pageIndex +
+        ', pageSize: ' +
+        pageSize
     );
 
+    this.searchQuery = filter;
+    this.sort = sortColumn;
+    this.order = sortDirection;
+    this._pageIndex = pageIndex;
+    this._pageSize = pageSize;
+
     this.formSearchService
-      .search(1, filter, sortDirection, pageIndex, pageSize)
+      .search(filter, sortColumn, sortDirection, pageIndex, pageSize)
       .pipe(
         catchError(() => of([])),
+        tap((forms) => (this._totalCount = forms.length)),
         finalize(() => this.loadingSubject.next(false))
       )
       .subscribe((forms) => this.formsSubject.next(forms));
-
-    // count from response header
-    return 120;
-  }
-
-  loadDataViaPost(
-    searchedForm: SearchedForm,
-    sort: string = 'formTitle',
-    order: string = 'asc',
-    pageIndex: number = 0,
-    pageSize: number = 10
-  ) {
-    let formSearchRequest: FormSearchRequest = {
-      queryText: searchedForm.searchQueryText,
-      sort: sort,
-      order: order,
-      pageIndex: pageIndex,
-      pageSize: pageSize,
-    };
-
-    this.formSearchService
-      .postSearch(formSearchRequest)
-      .pipe(finalize(() => this.loadingSubject.next(false)))
-      .subscribe((formSearchResponse) => {
-        this.formsSubject.next(formSearchResponse.results);
-      });
-
-    // count from response header
-    return 120;
   }
 }

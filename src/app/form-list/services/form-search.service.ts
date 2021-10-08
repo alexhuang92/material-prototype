@@ -13,8 +13,8 @@ export class FormSearchService {
   constructor(private httpClient: HttpClient) {}
 
   search(
-    courseId: number,
     filter = '',
+    sortColumn = 'formTitle',
     sortOrder = 'asc',
     pageNumber = 0,
     pageSize = 5
@@ -23,9 +23,9 @@ export class FormSearchService {
       'http://localhost:3000/forms',
       {
         params: new HttpParams()
-          .set('courseId', courseId.toString())
           .set('filter', filter)
-          .set('sortOrder', sortOrder)
+          .set('sort', sortColumn)
+          .set('order', sortOrder)
           .set('pageNumber', pageNumber.toString())
           .set('pageSize', pageSize.toString()),
       }
